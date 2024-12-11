@@ -19,8 +19,12 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+
 // Routes
 app.use('/api/licenses', licenseRoutes);
+
+app.use('/', (req, res)=> res.send("Driver Licence Verification API"));
+
 
 // Start the server
 const PORT = process.env.PORT || 5000;
