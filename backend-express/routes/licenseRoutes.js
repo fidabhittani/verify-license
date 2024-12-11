@@ -1,7 +1,7 @@
 
-import express from 'express'
+const express  =  require('express')
 
-import License from '../models/license';
+const  License = require('../models/license');
 
 const router = express.Router();
 
@@ -49,4 +49,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

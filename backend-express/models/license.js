@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const LicenseSchema = new mongoose.Schema({
   licenseNumber: { type: String, required: true, unique: true },
@@ -9,4 +9,4 @@ const LicenseSchema = new mongoose.Schema({
   status: { type: String, required: true }, // e.g., "Valid" or "Expired"
 });
 
-export default  mongoose.model('License', LicenseSchema);
+module.exports =  mongoose.model('License', LicenseSchema);

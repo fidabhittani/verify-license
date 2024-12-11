@@ -1,17 +1,17 @@
-import express from 'express';
+const  express  = require('express');
 
-import cors from "cors"
+const cors = require("cors")
 
-import bodyParser from 'body-parser';
-import dotenv from  'dotenv'
-import connectDB from   './config/db'
-import licenseRoutes from   './routes/licenseRoutes'
+const bodyParser = require('body-parser')
+const dotenv = require( 'dotenv')
+const connectDB = require(  './config/db')
+const licenseRoutes = require(  './routes/licenseRoutes')
 
 // Load environment variables
 dotenv.config();
 
 // Connect to MongoDB
-connectDB();
+connectDB().catch(console.dir);
 
 const app = express();
 
