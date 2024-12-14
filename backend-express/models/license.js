@@ -7,6 +7,6 @@ const LicenseSchema = new mongoose.Schema({
   issueDate: { type: String, required: true },
   expiryDate: { type: String, required: true },
   status: { type: String, required: true }, // e.g., "Valid" or "Expired"
-});
+}, { timestamps: true });
 
 module.exports =  mongoose.model('License', LicenseSchema);

@@ -26,6 +26,17 @@ router.get('/:licenseNumber', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+router.get('/', async (req, res) => {
+  try {
+    const licenses = await License.find({});
+    if (!licenses)
+       return res.status(404).json({ error: 'No Licenses found' });
+
+    res.json(licenses);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // Update a license
 router.put('/:id', async (req, res) => {
