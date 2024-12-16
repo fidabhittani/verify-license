@@ -64,7 +64,7 @@ const AdminLicense = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row) => (
+            {data?.map((row) => (
               <TableRow
                 key={row.licenseNumber}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
