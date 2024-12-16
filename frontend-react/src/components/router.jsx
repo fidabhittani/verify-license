@@ -5,6 +5,7 @@ import Home from "./home";
 import AadminLayout from "../layout/admin";
 import Admin from "./admin";
 import VerifyLicense from "./verify-license";
+import AdminRouter from "./admin";
 
 const AppRouter = () => {
   return (
@@ -46,9 +47,8 @@ const AppRouter = () => {
         <Route path="*" element={<code>NOT FOUND</code>} />
       </Route>
 
-      <Route path="admin" element={<AadminLayout />}>
-        <Route index element={<Admin />} />
-      </Route>
+      <Route path="admin/*" element={<AdminRouter />}/>
+      
     </Routes>
   );
 };

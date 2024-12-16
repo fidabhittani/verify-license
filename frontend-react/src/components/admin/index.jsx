@@ -1,7 +1,18 @@
-import { Box } from "@mui/material"
+import { Navigate, Route, Routes } from "react-router";
+import AadminLayout from "../../layout/admin";
+import AdminLicense from "./licenses";
 
-const Admin = () =>{
-    return <Box>Admin Panel will be here</Box>
-}
+const AdminRouter = () => {
+  return (
+    <Routes>
+      <Route path="" element={<AadminLayout />}>
+        <Route index element={<Navigate to={"license"} />} />
 
-export default Admin
+        <Route path="license" element={<AdminLicense/>} />
+        <Route path="user" element={<div>Register component goes here</div>} />
+      </Route>
+    </Routes>
+  );
+};
+
+export default AdminRouter;
