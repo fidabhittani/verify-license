@@ -1,0 +1,75 @@
+.home-page {
+  .head-box {
+    position: relative;
+    height: 70vh;
+    /* bottom: 16em; */
+
+    .headings-bg {
+      background: url(https://ptpkp.gov.pk/wp-content/uploads/2023/08/kp-traffic-police.jpg);
+      background-size: cover;
+      height: 100%;
+    }
+
+    .headings-layover {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      background: black;
+      opacity: 0.4;
+      height: 100%;
+    }
+    .headings {
+      position: absolute;
+      top: 8em;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 1;
+      color: white;
+    }
+  }
+
+  .tiles-box {
+    display: flex;
+    gap: 1.2em;
+    margin-top: -4em;
+    justify-content: center;
+    align-items: center;
+
+    .tile {
+      z-index: 2;
+
+      border-radius: 15px;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 1em;
+      width: 200px;
+      font-size: 16px;
+      transition: transform ease 300ms;
+    }
+    :hover {
+      transform: translate(0, -10px);
+    }
+
+    .tile-red {
+      background-color: #822310;
+    }
+    .tile-blue {
+      background-color: #104382;
+    }
+  }
+
+  .content {
+    padding: 0 18em;
+    margin: 1em 0;
+  }
+}

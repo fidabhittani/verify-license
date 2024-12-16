@@ -65,7 +65,7 @@ export default function AppLayout() {
           </Toolbar>
         </Box>
       </AppBar>
-      <Box sx={{ mx: "18em", my:'1em' }}>
+      <Box>
         <Outlet />
       </Box>
     </Box>
