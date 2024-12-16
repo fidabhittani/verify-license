@@ -56,26 +56,26 @@ const AdminLicense = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Dessert (100g serving)</TableCell>
-              <TableCell align="right">Calories</TableCell>
-              <TableCell align="right">Fat&nbsp;(g)</TableCell>
-              <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-              <TableCell align="right">Protein&nbsp;(g)</TableCell>
+              <TableCell>License No</TableCell>
+              <TableCell align="right">Name</TableCell>
+              <TableCell align="right">Issue Date</TableCell>
+              <TableCell align="right">Expiry Date</TableCell>
+              <TableCell align="right">Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {data.map((row) => (
               <TableRow
-                key={row.name}
+                key={row.licenseNumber}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {row.licenseNumber}
                 </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
+                <TableCell align="right">{row.name}</TableCell>
+                <TableCell align="right">{row.issueDate}</TableCell>
+                <TableCell align="right">{row.expiryDate}</TableCell>
+                <TableCell align="right">{row.status}</TableCell>
               </TableRow>
             ))}
           </TableBody>
