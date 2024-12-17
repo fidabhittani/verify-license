@@ -23,3 +23,15 @@ export const createLicense = async (data) => {
 
   return res.json();
 };
+
+/**
+ *  Search By License
+ */
+export const searchByLicense = async (licenseNum) => {
+  const res = await fetch(`/api/licenses/${licenseNum}`);
+
+  return res.json();
+};
+
+
+
