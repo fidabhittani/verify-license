@@ -6,6 +6,7 @@ import {
   FormHelperText,
   TextField
 } from "@mui/material";
+import moment from "moment";
 import { useState } from "react";
 
 const VerifyLicense = () => {
@@ -25,9 +26,8 @@ const VerifyLicense = () => {
 
       const json = await response.json();
 
-      setIsVerified(json.status);
+      setIsVerified(moment(json.expiryDate).diff(moment(0, 'HH')) > 0?"valid":"expired");
     } catch (error) {
-      console.log({ error });
       setIsVerified(error.message);
 
     } finally {
@@ -44,8 +44,8 @@ const VerifyLicense = () => {
       alignItems={"center"}
     >
       {isVerified && (
-        <Alert severity={isVerified === "Valid" ? "success" : "error"}>
-          {isVerified}
+        <Alert severity={isVerified === "valid" ? "success" : "error"}>
+          {isVerified === "valid"? "Your license iss verified": "Your license is expired"}
         </Alert>
       )}
       <FormControl m={4}>

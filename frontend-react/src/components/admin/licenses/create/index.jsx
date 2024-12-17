@@ -51,6 +51,7 @@ export default function CreateLicense() {
 
   const mutationLicense = useMutation({
     mutationFn: createLicense,
+    
     onSuccess: () => {
       refetchLicenses();
       navigate("../");
