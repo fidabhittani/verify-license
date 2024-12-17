@@ -1,12 +1,28 @@
 const mongoose = require("mongoose");
 
-const LicenseSchema = new mongoose.Schema({
-  licenseNumber: { type: String, required: true, unique: true },
-  name: { type: String, required: true },
-  dateOfBirth: { type: String, required: true },
-  issueDate: { type: String, required: true },
-  expiryDate: { type: String, required: true },
-  status: { type: String, required: true }, // e.g., "Valid" or "Expired"
-}, { timestamps: true });
+const LicenseSchema = new mongoose.Schema(
+  {
+    licenseNumber: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    fatherName: { type: String, required: true, default: null },
+    cnic: { type: String, required: true, unique: true , default: null},
+    licenseType: {
+      type: String,
+      enum: ["M-CYCLE", "MOTOR-CAR", "LTV", "HTV"],
+      default: "MOTOR-CAR",
+    },
+    district: { type: String, default: null, required: true },
+    initialLicenseType: {
+      type: String,
+      enum: ["M-CYCLE", "MOTOR-CAR", "LTV", "HTV"],
+      default: "MOTOR-CAR",
+    },
+    issueDate: { type: Date, required: true , default: null},
+    expiryDate: { type: Date, required: true, default: null },
+    initialLicenseIssueDate: { type: Date, default: null },
+    status: { type: String, default: null }, // e.g., "Valid" or "Expired"
+  },
+  { timestamps: true }
+);
 
-module.exports =  mongoose.model('License', LicenseSchema);
+module.exports = mongoose.model("License", LicenseSchema);

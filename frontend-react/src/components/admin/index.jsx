@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router";
 import AadminLayout from "../../layout/admin";
 import AdminLicense from "./licenses";
+import CreateLicense from "./licenses/create";
 
 const AdminRouter = () => {
   return (
@@ -8,7 +9,9 @@ const AdminRouter = () => {
       <Route path="" element={<AadminLayout />}>
         <Route index element={<Navigate to={"license"} />} />
 
-        <Route path="license" element={<AdminLicense/>} />
+        <Route path="license" element={<AdminLicense />}>
+          <Route path="create" element={<CreateLicense />} />
+        </Route>
         <Route path="user" element={<div>Register component goes here</div>} />
       </Route>
     </Routes>
