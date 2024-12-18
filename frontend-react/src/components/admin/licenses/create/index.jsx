@@ -14,14 +14,19 @@ import {
   Typography,
 } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
-import { useNavigate, useOutletContext } from "react-router";
-import { createLicense } from "../../../../services/license";
+import { useNavigate, useOutletContext, useParams } from "react-router";
+import {
+  createLicense,
+  findLiceneById,
+  updateLicense,
+} from "../../../../services/license";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import moment from "moment";
 import districts from "../../../../utils/districts";
+import { useEffect } from "react";
 
 const licensTypesArr = [
   { value: "M-CYCLE", label: "MOTOR CYCLE" },
@@ -32,10 +37,20 @@ const licensTypesArr = [
 
 export default function CreateLicense() {
   const { refetchLicenses } = useOutletContext();
+  const { id } = useParams();
+
+  const { data: licenseData } = useQuery({
+    queryKey: ["id", id],
+    queryFn: async () => {
+      const data = await findLiceneById(id);
+      return data;
+    },
+    enabled: Boolean(id),
+  });
 
   const {
     handleSubmit,
-    control,
+    control, reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -51,7 +66,15 @@ export default function CreateLicense() {
 
   const mutationLicense = useMutation({
     mutationFn: createLicense,
-    
+
+    onSuccess: () => {
+      refetchLicenses();
+      navigate("../");
+    },
+  });
+  const mutationUpdateLicense = useMutation({
+    mutationFn: updateLicense,
+
     onSuccess: () => {
       refetchLicenses();
       navigate("../");
@@ -59,17 +82,42 @@ export default function CreateLicense() {
   });
 
   const onSaveLicense = (data) => {
-    mutationLicense.mutate(data);
+    if (id) {
+      mutationUpdateLicense.mutate({id, data});
+    } else {
+      mutationLicense.mutate(data);
+    }
   };
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(licenseData){
+      reset(formValues => ({
+        ...formValues,
+
+        name: licenseData.name,
+        fatherName: licenseData.fatherName,
+        licenseType: licenseData.licenseType,
+        initialLicenseType:licenseData.initialLicenseType,
+        cnic: licenseData.cnic,
+        licenseNumber: licenseData.licenseNumber,
+        district: licenseData.district,
+        issueDate: moment(licenseData.issueDate),
+        expiryDate: moment(licenseData.expiryDate),
+  
+      }))
+
+    }
+  }, [licenseData]);
+
   return (
     <Drawer open={true} anchor="right" hideBackdrop>
       <form onSubmit={handleSubmit(onSaveLicense)}>
         <Card sx={{ width: "25em", height: "100%" }}>
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              Create License
+              {id ? "Update" : "Create"} License
               {mutationLicense.isPending && <LinearProgress />}
             </Typography>
             <Divider sx={{ my: 2 }} />

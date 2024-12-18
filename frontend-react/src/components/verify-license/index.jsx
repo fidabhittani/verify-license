@@ -22,7 +22,7 @@ const VerifyLicense = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`/api/licenses/${search}`);
+      const response = await fetch(`/api/licenses/getByLicenseOrCNIC/${search}`);
       if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
       }
@@ -55,14 +55,14 @@ const VerifyLicense = () => {
       <FormControl m={4}>
         <TextField
           id="outlined-basic"
-          label="Enter License Number"
+          label="Enter License Number OR CNIC"
           variant="outlined"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
 
         <FormHelperText id="my-helper-text">
-          Enter your license number such &quote;ABD-989&quote; to search and varify
+          Enter your license number such (ABD-989) to search and varify
         </FormHelperText>
       </FormControl>
       <FormControl>
