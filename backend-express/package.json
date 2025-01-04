@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node main.js",
     "dev": "nodemon main.js",
-  
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -15,9 +14,12 @@
   "author": "Kaleem",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "jwt-decode": "^4.0.0",
     "mongoose": "^8.8.4"
   },
   "devDependencies": {

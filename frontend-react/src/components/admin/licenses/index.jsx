@@ -26,7 +26,7 @@ import EditIcon from "@mui/icons-material/Edit";
 
 const AdminLicense = () => {
   const {
-    data,
+    data, error,
     isError,
     isLoading,
     refetch: refetchLicenses,
@@ -36,7 +36,7 @@ const AdminLicense = () => {
   if (isError) {
     return (
       <Box>
-        <Alert security="error">Error Occured while fetching</Alert>s
+        <Alert variant="error">{error.message || 'Error Occured while fetching'}</Alert>
       </Box>
     );
   }

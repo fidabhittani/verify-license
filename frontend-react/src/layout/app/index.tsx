@@ -1,16 +1,17 @@
-import MenuIcon from "@mui/icons-material/Menu";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { Outlet, useNavigate } from "react-router";
+import { UserContext } from "../../contexts/user";
 import TopBarStrip from "./top-bar-strip";
 
 export default function AppLayout() {
   const navigate = useNavigate();
+  const { user } = React.useContext(UserContext);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <TopBarStrip>
@@ -59,9 +60,18 @@ export default function AppLayout() {
             <Button color="inherit" onClick={() => navigate("contact-us")}>
               Contact Us
             </Button>
-            <Button color="inherit" onClick={() => navigate("../admin")}>
-              Admin
-            </Button>
+            {user.authenticated ? (
+              <Button color="inherit" onClick={() => navigate("../admin")}>
+                Admin
+              </Button>
+            ) : (
+              <Button
+                color="inherit"
+                onClick={() => navigate("../auth/login")}
+              >
+                Login
+              </Button>
+            )}
           </Toolbar>
         </Box>
       </AppBar>

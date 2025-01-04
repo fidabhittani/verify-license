@@ -2,8 +2,10 @@ import { Box, Icon, Typography } from "@mui/material";
 
 import "./styles.scss";
 import AppCarousal from "./carousal/Index";
+import { useNavigate } from "react-router";
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <Box class="home-page">
       <Box id="head-box" class="head-box">
@@ -34,7 +36,7 @@ const Home = () => {
 
           <Typography>Driving License Verification</Typography>
         </Box>
-        <Box class="tile tile-red">
+        <Box class="tile tile-red" onClick={() => navigate("../driving-license")}>
           <figure>
             <img
               decoding="async"
@@ -46,7 +48,7 @@ const Home = () => {
             />
           </figure>
 
-          <Typography>Driving License Verification</Typography>
+          <Typography>Click to See Verification</Typography>
         </Box>
         <Box class="tile tile-blue">
           <figure>

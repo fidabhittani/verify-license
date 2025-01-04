@@ -1,10 +1,21 @@
-import AppRouter from "./components/router"
+import { useMemo, useReducer } from "react";
+import AppRouter from "./components/router";
+import { defaultUserContext, UserContext, userReducer } from "./contexts/user";
+
+const RootRouter = () => {
+  const [user, dispatchUser] = useReducer(userReducer, defaultUserContext);
+  
+  const memoizedValue = useMemo(
+    () => ({ user, dispatchUser }),
+    [user, dispatchUser]
+  );
 
 
-const RootRouter = () =>{
+  return (
+    <UserContext.Provider value={memoizedValue}>
+      <AppRouter />
+    </UserContext.Provider>
+  );
+};
 
-
-    return <AppRouter/>
-}
-
-export default RootRouter
+export default RootRouter;

@@ -10,33 +10,30 @@ import {
 import moment from "moment";
 import { useState } from "react";
 import VerifiedListTable from "./verified-list-table";
+import { searchByLicense } from "../../services/license";
+import { useQuery } from "@tanstack/react-query";
 
 const VerifyLicense = () => {
   const [search, setSearch] = useState();
   const [isVerified, setIsVerified] = useState("");
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(undefined);
+  // const [data, setData] = useState(undefined);
 
-  const onVerify = async () => {
-    setIsVerified("");
-    setLoading(true);
 
-    try {
-      const response = await fetch(`/api/licenses/getByLicenseOrCNIC/${search}`);
-      if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
-      }
 
-      const json = await response.json();
-      setData(json)
+    const { data, error, isError, isLoading, refetch } = useQuery({
+      queryKey: ["ssearchLiccenseByPlateOrCNIC", search],
+      queryFn: async () => {
+        const data = await searchByLicense(search);
+        return data;
+      },
+      enabled: false,
+    });
+  
 
-      setIsVerified(moment(json.expiryDate).diff(moment(0, 'HH')) > 0?"valid":"expired");
-    } catch (error) {
-      setIsVerified(error.message);
 
-    } finally {
-      setLoading(false);
-    }
+  const onVerify = () => {
+      refetch();
   };
 
   return (
@@ -47,11 +44,12 @@ const VerifyLicense = () => {
       flexDirection={"column"}
       alignItems={"center"}
     >
-      {isVerified && (
-        <Alert severity={isVerified === "valid" ? "success" : "error"}>
-          {isVerified === "valid"? "Your license iss verified": "Your license is expired"}
+      {isError && (
+        <Alert severity={"error"}>
+          {error.message || "Error Occured while fetching"}
         </Alert>
       )}
+      {isLoading && <Alert severity={"info"}>Loading...</Alert>}
       <FormControl m={4}>
         <TextField
           id="outlined-basic"
@@ -71,7 +69,7 @@ const VerifyLicense = () => {
         </Button>
       </FormControl>
       <Divider/>
-      {isVerified && data && <VerifiedListTable data={[data]}/>}
+      {data && <VerifiedListTable data={[data]}/>}
     </Box>
   );
 };

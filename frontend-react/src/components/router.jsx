@@ -1,22 +1,56 @@
-import { Routes, Route, Navigate } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import AppLayout from "../layout/app";
 import AuthLayout from "../layout/auth";
-import Home from "./home";
-import AadminLayout from "../layout/admin";
-import Admin from "./admin";
-import VerifyLicense from "./verify-license";
 import AdminRouter from "./admin";
+import LoginForm from "./auth/login";
+import Home from "./home";
+import VerifyLicense from "./verify-license";
+import SignUpForm from "./auth/register";
+import { useQuery } from "@tanstack/react-query";
+import { verifyTokenQuery } from "../services/user";
+import { useContext } from "react";
+import { UserContext } from "../contexts/user";
 
 const AppRouter = () => {
+
+  const { user, dispatchUser} = useContext(UserContext);
+
+
+  // Check the cookie token from backend if the token is valid or not using tanstack query  react-query
+
+  const { isError , data} = useQuery({
+    queryKey: ["verifyTokenQuery"],
+    queryFn: verifyTokenQuery,
+    enabled: !user.authenticated,
+  });
+
+  if (isError) {
+    dispatchUser({ type: "CLEAR_USER" });
+  }
+
+
+
+  if(data?.valid && !user.id){
+    data.user.authenticated = true;
+    dispatchUser({
+      type: "SET_USER",
+      payload: data.user,
+    });
+  }
+  console.log("User: ", user);
+
+
+
+
   return (
     <Routes>
       <Route index element={<Navigate to={"app"} />} />
 
       <Route path="auth" element={<AuthLayout />}>
-        <Route path="login" element={<>Login component goe here</>} />
+        <Route path="login" element={<LoginForm/>} />
         <Route
           path="register"
-          element={<div>Register component goes here</div>}
+          element={<SignUpForm />}
         />
       </Route>
 

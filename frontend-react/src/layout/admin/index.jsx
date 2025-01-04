@@ -1,33 +1,66 @@
-import MenuIcon from "@mui/icons-material/Menu";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid2";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid2";
 
-import { Outlet } from "react-router";
+import HomeIcon from "@mui/icons-material/Home";
+import { Outlet, useNavigate } from "react-router";
 import AdminSider from "./sider";
-
+import { useContext } from "react";
+import { UserContext } from "../../contexts/user";
+import { useMutation } from "@tanstack/react-query";
+import { logoutUser } from "../../services/user";
 export default function AadminLayout() {
+  const navigate = useNavigate();
+
+  const {user, dispatchUser} = useContext(UserContext)
+
+  const logOutMutation = useMutation({
+    mutationFn: logoutUser,
+
+    onSuccess: () => {
+      dispatchUser({
+        type: "CLEAR_USER",
+      });
+      navigate("../auth/login");
+    },
+  });
+
+
+
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
+          <IconButton onClick={()=> navigate("/")}
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
+            <HomeIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Admin Panel
+            KP Traffic Police Management
           </Typography>
-          <Button color="inherit">Logout</Button>
+          <Button color="inherit">
+            {user?.name}
+          </Button>
+
+          {user.authenticated ? (
+            <Button color="inherit" onClick={() => {
+              logOutMutation.mutate()
+            }}>
+              Logout
+            </Button>
+          ): <Button color="inherit" onClick={() => navigate("../auth/login")}>
+          Login
+        </Button>}
         </Toolbar>
       </AppBar>
       <Box>

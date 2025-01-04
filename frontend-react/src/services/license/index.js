@@ -4,6 +4,11 @@
  */
 export const fetchLicense = async () => {
   const res = await fetch("/api/licenses");
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Invalid credentials");
+  }
+
   return res.json();
 };
 
@@ -21,6 +26,11 @@ export const createLicense = async (data) => {
     body: JSON.stringify(data),
   });
 
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Invalid credentials");
+  }
+
   return res.json();
 };
 /**
@@ -36,6 +46,11 @@ export const updateLicense = async ({id, data}) => {
     },
     body: JSON.stringify(data),
   });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Invalid credentials");
+  }
+
 
   return res.json();
 };
@@ -47,6 +62,10 @@ export const updateLicense = async ({id, data}) => {
 export const findLiceneById = async (id) => {
 
   const res = await fetch(`/api/licenses/${id}`);
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Invalid credentials");
+  }
 
   return res.json();
 };
@@ -60,6 +79,11 @@ export const deleteLicense = async (id) => {
     method: "DELETE",
   });
 
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Invalid credentials");
+  }
+
   return res.json();
 };
 
@@ -68,6 +92,11 @@ export const deleteLicense = async (id) => {
  */
 export const searchByLicense = async (licenseNum) => {
   const res = await fetch(`/api/licenses/getByLicenseOrCNIC/${licenseNum}`);
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "License not found");
+  }
+
 
   return res.json();
 };
