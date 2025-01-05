@@ -5,11 +5,13 @@ import {
   CardContent,
   Divider,
   FormControl,
+  FormControlLabel,
   FormHelperText,
   InputLabel,
   LinearProgress,
   MenuItem,
   Select,
+  Switch,
   TextField,
   Typography,
 } from "@mui/material";
@@ -41,6 +43,7 @@ export default function CreateLicense() {
 
   const { data: licenseData } = useQuery({
     queryKey: ["id", id],
+    staleTime: 0,
     queryFn: async () => {
       const data = await findLiceneById(id);
       return data;
@@ -50,7 +53,8 @@ export default function CreateLicense() {
 
   const {
     handleSubmit,
-    control, reset,
+    control,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -61,6 +65,7 @@ export default function CreateLicense() {
       cnic: "",
       licenseNumber: "",
       district: "Peshawar",
+      internationalDrivingPermit: false,
     },
   });
 
@@ -83,7 +88,7 @@ export default function CreateLicense() {
 
   const onSaveLicense = (data) => {
     if (id) {
-      mutationUpdateLicense.mutate({id, data});
+      mutationUpdateLicense.mutate({ id, data });
     } else {
       mutationLicense.mutate(data);
     }
@@ -92,24 +97,24 @@ export default function CreateLicense() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(licenseData){
-      reset(formValues => ({
+    if (licenseData) {
+      reset((formValues) => ({
         ...formValues,
 
         name: licenseData.name,
         fatherName: licenseData.fatherName,
         licenseType: licenseData.licenseType,
-        initialLicenseType:licenseData.initialLicenseType,
+        initialLicenseType: licenseData.initialLicenseType,
         cnic: licenseData.cnic,
         licenseNumber: licenseData.licenseNumber,
         district: licenseData.district,
         issueDate: moment(licenseData.issueDate),
         expiryDate: moment(licenseData.expiryDate),
-  
-      }))
-
+        internationalDrivingPermit: Boolean(licenseData.internationalDrivingPermit),
+      }));
+      console.log({licenseData});
     }
-  }, [licenseData]);
+  }, [licenseData, reset]);
 
   return (
     <Drawer open={true} anchor="right" hideBackdrop>
@@ -119,6 +124,9 @@ export default function CreateLicense() {
             <Typography gutterBottom variant="h5" component="div">
               {id ? "Update" : "Create"} License
               {mutationLicense.isPending && <LinearProgress />}
+            </Typography>
+            <Typography gutterBottom color="error">
+              {mutationLicense.error?.message}
             </Typography>
             <Divider sx={{ my: 2 }} />
 
@@ -290,6 +298,20 @@ export default function CreateLicense() {
               <FormHelperText sx={{ color: "red" }}>
                 {errors.district && "District is required"}
               </FormHelperText>
+            </FormControl>
+
+            <FormControl fullWidth sx={{ mt: 1 }}>
+              <Controller
+                name="internationalDrivingPermit"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <FormControlLabel
+                    control={<Switch checked={value} onChange={onChange} />}
+                    label="International Driving Permit"
+                  />
+                )}
+              />
+              
             </FormControl>
 
             <FormControl fullWidth sx={{ mt: 1 }}>

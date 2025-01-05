@@ -64,14 +64,16 @@ const AdminLicense = () => {
               <TableCell>CNIC</TableCell>
 
               <TableCell>License No</TableCell>
-              <TableCell align="right">Name</TableCell>
-              <TableCell align="right">Father Name</TableCell>
-              <TableCell align="right">District</TableCell>
-              <TableCell align="right">Issue Date</TableCell>
-              <TableCell align="right">Expiry Date</TableCell>
-              <TableCell align="right">Created On</TableCell>
-              <TableCell align="right">Valid</TableCell>
-              <TableCell align="right">Actions</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Father Name</TableCell>
+              <TableCell>District</TableCell>
+              <TableCell>Issue Date</TableCell>
+              <TableCell>Expiry Date</TableCell>
+              <TableCell>Created On</TableCell>
+              <TableCell>Intl Driving Permit</TableCell>
+
+              <TableCell>Valid</TableCell>
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -85,19 +87,27 @@ const AdminLicense = () => {
                 <TableCell component="th" scope="row">
                   {row.licenseNumber}
                 </TableCell>
-                <TableCell align="right">{row.name}</TableCell>
-                <TableCell align="right">{row.fatherName}</TableCell>
-                <TableCell align="right">{row.district}</TableCell>
-                <TableCell align="right">
-                  {moment(row.issueDate).format("LL")}
+                <TableCell >{row.name}</TableCell>
+                <TableCell >{row.fatherName}</TableCell>
+                <TableCell >{row.district}</TableCell>
+                <TableCell >
+                  {moment(row.issueDate).format("llll")}
                 </TableCell>
-                <TableCell align="right">
-                  {moment(row.expiryDate).format("LL")}
+                <TableCell >
+                  {moment(row.expiryDate).format("llll")}
                 </TableCell>
-                <TableCell align="right">
-                  {moment(row.createdAt).format("LLLL")}
+                <TableCell >
+                  {moment(row.createdAt).format("llll")}
                 </TableCell>
-                <TableCell align="right">
+                <TableCell>
+                  <Chip
+                    label={row.internationalDrivingPermit ? "Yes" : "No"}
+                    color={row.internationalDrivingPermit ? "success" : "error"}
+                    variant="outlined"
+                  />
+                </TableCell>
+
+                <TableCell >
                   <Chip
                     label={
                       moment(row.expiryDate).diff(moment(0, "HH")) > 0
@@ -112,7 +122,7 @@ const AdminLicense = () => {
                     variant="outlined"
                   />
                 </TableCell>
-                <TableCell align="right">
+                <TableCell >
                   <Stack  direction={'row'}>
                     <IconButton aria-label="delete" color='error' onClick={()=> navigate(`confirmation/${row._id}`)}
                     >

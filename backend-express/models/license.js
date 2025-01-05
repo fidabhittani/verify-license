@@ -20,6 +20,7 @@ const LicenseSchema = new mongoose.Schema(
     issueDate: { type: Date, required: true , default: null},
     expiryDate: { type: Date, required: true, default: null },
     initialLicenseIssueDate: { type: Date, default: null },
+    internationalDrivingPermit: { type: Boolean, default: false },
     status: { type: String, default: null }, // e.g., "Valid" or "Expired"
   },
   { timestamps: true }

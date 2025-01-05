@@ -1,12 +1,19 @@
 /**
  *  Get all licenses
  * @returns
+ * 
+ * 
+ * 
  */
+
+
+const somethingWentWrong = "Something went wrong";
+
 export const fetchLicense = async () => {
   const res = await fetch("/api/licenses");
   if (!res.ok) {
     const error = await res.json();
-    throw new Error(error.message || "Invalid credentials");
+    throw new Error(error.message || error.error ||  somethingWentWrong);
   }
 
   return res.json();
@@ -28,7 +35,7 @@ export const createLicense = async (data) => {
 
   if (!res.ok) {
     const error = await res.json();
-    throw new Error(error.message || "Invalid credentials");
+    throw new Error(error.message || error.error || somethingWentWrong);
   }
 
   return res.json();
@@ -48,7 +55,7 @@ export const updateLicense = async ({id, data}) => {
   });
   if (!res.ok) {
     const error = await res.json();
-    throw new Error(error.message || "Invalid credentials");
+    throw new Error(error.message || error.error ||  somethingWentWrong);
   }
 
 
@@ -64,7 +71,7 @@ export const findLiceneById = async (id) => {
   const res = await fetch(`/api/licenses/${id}`);
   if (!res.ok) {
     const error = await res.json();
-    throw new Error(error.message || "Invalid credentials");
+    throw new Error(error.message || error.error ||  somethingWentWrong);
   }
 
   return res.json();
@@ -81,7 +88,7 @@ export const deleteLicense = async (id) => {
 
   if (!res.ok) {
     const error = await res.json();
-    throw new Error(error.message || "Invalid credentials");
+    throw new Error(error.message || error.error ||  somethingWentWrong);
   }
 
   return res.json();
@@ -94,7 +101,7 @@ export const searchByLicense = async (licenseNum) => {
   const res = await fetch(`/api/licenses/getByLicenseOrCNIC/${licenseNum}`);
   if (!res.ok) {
     const error = await res.json();
-    throw new Error(error.message || "License not found");
+    throw new Error(error.message || error.error ||  "License not found");
   }
 
 
